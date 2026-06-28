@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AquiferOps — From field data to regulator-ready report, in one system</title>
+  <meta name="description" content="The all-in-one platform for small and mid-size environmental & hydrogeology consulting firms. Field data, lab results, the science, regulator-ready reports, and billing — one connected system." />
+
+  <!-- Social-share preview (used when the link is posted in email/Slack/etc.). Add an og:image once a share graphic exists. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="AquiferOps — From field data to regulator-ready report, in one system" />
+  <meta property="og:description" content="The all-in-one platform for environmental & hydrogeology consulting firms — field data, the science, regulator-ready reports, and billing in one connected system." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AquiferOps — From field data to regulator-ready report, in one system" />
+  <meta name="twitter:description" content="Field data, the science, regulator-ready reports, and billing in one connected system." />
+
+  <!-- Tailwind via CDN keeps this a single, portable file for review. For the
+       live site, Tim can swap to a compiled build (no other changes needed). -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50:'#f0f9ff',100:'#e0f2fe',300:'#7dd3fc',500:'#0ea5e9',600:'#0284c7',700:'#0369a1',900:'#0c4a6e' },
+            navy: '#1e3a8a',
+          },
+          fontFamily: { sans: ['ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','Helvetica','Arial','sans-serif'] },
+        },
+      },
+    };
+  </script>
+  <style>
+    .hero-gradient { background:
+      radial-gradient(1200px 520px at 72% -8%, rgba(14,165,233,.22), transparent 60%),
+      linear-gradient(180deg, #eaf6ff 0%, #f0f9ff 38%, #ffffff 100%); }
+    .card { transition: transform .15s ease, box-shadow .15s ease; }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px -12px rgba(2,132,199,.35); }
+
+    /* Gentle drifting water. Each wave path is ~2x the viewport width, so the
+       horizontal drift loops without a visible seam. */
+    /* Wave groups span 2880 user units and repeat every 720, so a 1440-unit
+       shift (two repeats) loops seamlessly. */
+    @keyframes drift-left  { from { transform: translateX(0); }        to { transform: translateX(-1440px); } }
+    @keyframes drift-right { from { transform: translateX(-1440px); }  to { transform: translateX(0); } }
+    .wave-a { animation: drift-left 14s linear infinite; }
+    .wave-b { animation: drift-right 20s linear infinite; }
+    .wave-c { animation: drift-left 28s linear infinite; }
+    /* Non-intrusive "flow" sheen that sweeps across the feature-card accent
+       stripes, emphasizing how data flows through the connected system. */
+    .flow-accent { overflow: hidden; }
+    .flow-accent::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,.9) 50%, transparent 100%);
+      transform: translateX(-120%);
+      animation: flow-sheen 4.5s ease-in-out infinite;
+      animation-delay: var(--d, 0s);
+    }
+    @keyframes flow-sheen { 0% { transform: translateX(-120%); } 55%,100% { transform: translateX(120%); } }
+    @media (prefers-reduced-motion: reduce) { .wave-a,.wave-b,.wave-c { animation: none; } .flow-accent::after { animation: none; } }
+  </style>
+</head>
+<body class="font-sans text-slate-800 antialiased">
+
+  <!-- ===== Nav ===== -->
+  <header class="sticky top-0 z-30 border-b border-sky-100 bg-white/80 backdrop-blur">
+    <nav class="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
+      <a href="#top" class="flex items-center gap-2 font-semibold text-navy">
+        <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-cyan-500 text-white shadow-sm">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2.5c4 5 6.5 8 6.5 11.2A6.5 6.5 0 0 1 12 20.2a6.5 6.5 0 0 1-6.5-6.5C5.5 10.5 8 7.5 12 2.5z"/></svg>
+        </span>
+        AquiferOps
+      </a>
+      <div class="hidden items-center gap-7 text-sm font-medium text-slate-600 md:flex">
+        <a href="#problem" class="hover:text-navy">Why</a>
+        <a href="#features" class="hover:text-navy">What it does</a>
+        <a href="#how" class="hover:text-navy">How it works</a>
+        <a href="#pricing" class="hover:text-navy">Pricing</a>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="#waitlist" class="hidden rounded-full bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-brand-700 md:inline-block">Join early access</a>
+        <button id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-navy hover:bg-sky-50 md:hidden">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </nav>
+    <!-- mobile menu -->
+    <div id="mobileMenu" class="hidden border-t border-sky-100 bg-white md:hidden">
+      <div class="space-y-1 px-5 py-3 text-sm font-medium text-slate-700">
+        <a href="#problem" class="block rounded-lg px-3 py-2 hover:bg-sky-50">Why</a>
+        <a href="#features" class="block rounded-lg px-3 py-2 hover:bg-sky-50">What it does</a>
+        <a href="#how" class="block rounded-lg px-3 py-2 hover:bg-sky-50">How it works</a>
+        <a href="#pricing" class="block rounded-lg px-3 py-2 hover:bg-sky-50">Pricing</a>
+        <a href="#waitlist" class="mt-1 block rounded-full bg-brand-600 px-4 py-2 text-center font-semibold text-white">Join early access</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section id="top" class="hero-gradient relative overflow-hidden">
+    <div class="relative z-10 mx-auto grid max-w-6xl items-center gap-10 px-5 pt-20 pb-44 md:grid-cols-2 md:pt-28 md:pb-64">
+      <div>
+        <span class="inline-flex items-center gap-2 rounded-full bg-brand-100 px-3 py-1 text-xs font-semibold text-brand-700">
+          <span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span> Now onboarding early firms
+        </span>
+        <h1 class="mt-5 text-4xl font-bold leading-tight tracking-tight text-navy md:text-5xl">
+          From field data to regulator-ready report — in one system.
+        </h1>
+        <p class="mt-5 max-w-xl text-lg text-slate-600">
+          For small and mid-size environmental &amp; hydrogeology firms, the same data moves
+          manually across seven disconnected tools &mdash; every hand-off a chance for an
+          error to reach a regulatory deliverable. AquiferOps replaces it all with one
+          connected system, client portal included.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <a href="#waitlist" class="rounded-full bg-brand-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-brand-700">Join the early-access list</a>
+          <a href="#features" class="rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">See what it does</a>
+        </div>
+      </div>
+
+      <!-- "one workflow" visual -->
+      <div class="relative overflow-hidden rounded-3xl bg-white p-7 shadow-2xl shadow-sky-200/60 ring-1 ring-sky-100">
+        <!-- gradient top accent -->
+        <div class="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-brand-500 via-cyan-400 to-teal-400"></div>
+        <div class="flex items-center gap-2">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-cyan-500 text-white shadow-sm shadow-cyan-500/30">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M12 2.5c4 5 6.5 8 6.5 11.2A6.5 6.5 0 0 1 12 20.2a6.5 6.5 0 0 1-6.5-6.5C5.5 10.5 8 7.5 12 2.5z"/></svg>
+          </span>
+          <p class="text-sm font-bold text-navy">The one-workflow idea</p>
+        </div>
+        <ol class="mt-6 text-sm text-slate-700">
+          <li class="flex gap-3">
+            <div class="flex flex-col items-center self-stretch">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-600 text-xs font-bold text-white shadow-sm shadow-brand-600/40">1</span>
+              <span class="my-1 w-0.5 flex-1 rounded bg-gradient-to-b from-brand-400 to-cyan-300"></span>
+            </div>
+            <p class="pb-6 pt-1.5 font-medium">Capture field data on a phone or tablet — even with no signal</p>
+          </li>
+          <li class="flex gap-3">
+            <div class="flex flex-col items-center self-stretch">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-600 text-xs font-bold text-white shadow-sm shadow-brand-600/40">2</span>
+              <span class="my-1 w-0.5 flex-1 rounded bg-gradient-to-b from-cyan-400 to-cyan-300"></span>
+            </div>
+            <p class="pb-6 pt-1.5 font-medium">Import the lab results — no retyping</p>
+          </li>
+          <li class="flex gap-3">
+            <div class="flex flex-col items-center self-stretch">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-600 text-xs font-bold text-white shadow-sm shadow-brand-600/40">3</span>
+              <span class="my-1 w-0.5 flex-1 rounded bg-gradient-to-b from-cyan-300 to-emerald-300"></span>
+            </div>
+            <p class="pb-6 pt-1.5 font-medium">The science runs itself — aquifer-test solvers, Mann-Kendall trend tests &amp; non-detect statistics, plume &amp; potentiometric maps</p>
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-sm font-bold text-white shadow-sm shadow-emerald-500/30">✓</span>
+            <p class="flex-1 rounded-xl bg-emerald-50 px-3 py-2 font-semibold text-emerald-800 ring-1 ring-emerald-100">A defensible, regulator-ready report — traceable to the source data</p>
+          </li>
+        </ol>
+        <p class="mt-2 border-t border-sky-100 pt-4 text-xs leading-relaxed text-slate-500">
+          <span class="font-semibold text-brand-700">USGS-grade methods, built in</span> — Theis &amp; Cooper-Jacob and Hvorslev slug tests, Mann-Kendall with Sen&rsquo;s slope, Kaplan-Meier &amp; ROS non-detect statistics, ASTM D2487 / USCS soil classification, and EPA SW-846 holding times. The peer-reviewed science the field trusts — not black-box approximations.
+        </p>
+      </div>
+    </div>
+
+    <!-- Layered mountains + animated water. Decorative; stretched full width. -->
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 select-none">
+      <svg class="block w-full" viewBox="0 0 1440 380" preserveAspectRatio="none" style="height:clamp(210px,30vw,360px)">
+        <!-- distant range -->
+        <path fill="#cfe9fd" d="M0,250 L120,182 L260,236 L380,150 L520,226 L660,140 L820,232 L980,160 L1140,236 L1280,176 L1440,240 L1440,380 L0,380 Z"/>
+        <!-- mid range -->
+        <path fill="#7dd3fc" d="M0,300 L160,212 L320,286 L470,200 L640,290 L800,216 L980,296 L1150,226 L1320,290 L1440,252 L1440,380 L0,380 Z"/>
+        <!-- front ridge (dark silhouette) -->
+        <path fill="#0284c7" d="M0,330 L220,256 L430,326 L640,250 L880,330 L1100,270 L1320,330 L1440,300 L1440,380 L0,380 Z"/>
+        <!-- water base -->
+        <rect x="0" y="316" width="1440" height="64" fill="#0c4a6e"/>
+        <!-- three drifting wave layers (each 2880 wide, repeats every 720) -->
+        <g class="wave-c" opacity="0.55"><path fill="#0369a1" d="M0,330 c90,-12 270,-12 360,0 c90,12 270,12 360,0 c90,-12 270,-12 360,0 c90,12 270,12 360,0 c90,-12 270,-12 360,0 c90,12 270,12 360,0 c90,-12 270,-12 360,0 c90,12 270,12 360,0 L2880,380 L0,380 Z"/></g>
+        <g class="wave-b" opacity="0.7"><path fill="#0ea5e9" d="M0,344 c90,-10 270,-10 360,0 c90,10 270,10 360,0 c90,-10 270,-10 360,0 c90,10 270,10 360,0 c90,-10 270,-10 360,0 c90,10 270,10 360,0 c90,-10 270,-10 360,0 c90,10 270,10 360,0 L2880,380 L0,380 Z"/></g>
+        <g class="wave-a"><path fill="#38bdf8" d="M0,356 c90,-8 270,-8 360,0 c90,8 270,8 360,0 c90,-8 270,-8 360,0 c90,8 270,8 360,0 c90,-8 270,-8 360,0 c90,8 270,8 360,0 c90,-8 270,-8 360,0 c90,8 270,8 360,0 L2880,380 L0,380 Z"/></g>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===== Problem ===== -->
+  <section id="problem" class="mx-auto max-w-6xl px-5 py-20">
+    <h2 class="text-center text-3xl font-bold tracking-tight text-navy">The seven-tool problem, solved.</h2>
+    <p class="mx-auto mt-4 max-w-2xl text-center text-slate-600">
+      Most groundwater firms run every project through a string of tools that were
+      never built to talk to each other. Which way is your firm working today?
+    </p>
+    <div class="mx-auto mt-12 grid max-w-6xl items-stretch gap-6 md:grid-cols-[1fr_auto_1fr]">
+
+      <!-- OLD WAY panel -->
+      <div class="relative flex flex-col rounded-3xl bg-slate-100/70 p-6 ring-1 ring-slate-200">
+        <span class="absolute right-4 top-4 flex h-7 w-7 items-center justify-center rounded-full bg-amber-400 text-sm font-bold text-amber-950 ring-2 ring-white" aria-hidden="true">!</span>
+        <p class="text-sm font-semibold tracking-wide text-slate-700">The old way</p>
+        <p class="text-xs font-medium text-slate-500">seven disconnected tools</p>
+        <div class="mt-4 rounded-2xl bg-white p-4 ring-1 ring-slate-200" role="img" aria-label="Noisy, scattered data with no clear trend">
+          <svg viewBox="0 0 240 120" class="w-full">
+            <g stroke="#e2e8f0" stroke-width="1"><line x1="30" y1="40" x2="220" y2="40"/><line x1="30" y1="68" x2="220" y2="68"/></g>
+            <path d="M30 16 V96 H220" fill="none" stroke="#cbd5e1" stroke-width="1.5"/>
+            <polyline points="42,46 68,88 94,30 120,92 146,38 172,86 198,34" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linejoin="round"/>
+            <g fill="#94a3b8"><circle cx="42" cy="46" r="3.6"/><circle cx="68" cy="88" r="3.6"/><circle cx="94" cy="30" r="3.6"/><circle cx="120" cy="92" r="3.6"/><circle cx="146" cy="38" r="3.6"/><circle cx="172" cy="86" r="3.6"/><circle cx="198" cy="34" r="3.6"/></g>
+          </svg>
+        </div>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <span class="-rotate-2 rounded-md bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 shadow-sm ring-1 ring-slate-300">Field notes</span>
+          <span class="rotate-1 rounded-md bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 shadow-sm ring-1 ring-slate-300">Spreadsheets</span>
+          <span class="rotate-2 rounded-md bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 shadow-sm ring-1 ring-slate-300">Aquifer-test software</span>
+          <span class="-rotate-1 rounded-md bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 shadow-sm ring-1 ring-slate-300">Contouring software</span>
+          <span class="rotate-1 rounded-md bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 shadow-sm ring-1 ring-slate-300">Stats tools</span>
+          <span class="-rotate-2 rounded-md bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 shadow-sm ring-1 ring-slate-300">Report template</span>
+          <span class="rotate-2 rounded-md bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 shadow-sm ring-1 ring-slate-300">Billing</span>
+        </div>
+        <p class="mt-auto flex items-start gap-2 pt-5 text-sm leading-snug">
+          <span class="mt-px flex h-4 w-4 flex-none items-center justify-center rounded-full bg-amber-400 text-[10px] font-bold text-amber-950" aria-hidden="true">!</span>
+          <span><span class="font-bold text-slate-800">Seven tools.</span> <span class="font-semibold text-red-600">Your data scattered across all of them.</span></span>
+        </p>
+      </div>
+
+      <!-- directional cue -->
+      <div class="flex items-center justify-center md:self-center" aria-hidden="true">
+        <span class="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-white shadow-lg shadow-cyan-500/40 ring-4 ring-white">
+          <svg class="hidden md:block" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          <svg class="md:hidden" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg>
+        </span>
+      </div>
+
+      <!-- AQUIFEROPS panel -->
+      <div class="relative flex flex-col overflow-hidden rounded-3xl bg-gradient-to-br from-brand-600 via-brand-500 to-cyan-500 p-6 text-white shadow-2xl shadow-cyan-500/30 ring-1 ring-white/30">
+        <span class="absolute right-4 top-4 flex h-7 w-7 items-center justify-center rounded-full bg-emerald-500 ring-2 ring-white" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </span>
+        <div class="flex items-center gap-2">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-white/20">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 2.5c4 5 6.5 8 6.5 11.2A6.5 6.5 0 0 1 12 20.2a6.5 6.5 0 0 1-6.5-6.5C5.5 10.5 8 7.5 12 2.5z"/></svg>
+          </span>
+          <span class="text-lg font-bold tracking-tight">AquiferOps</span>
+        </div>
+        <p class="mt-3 text-sm font-semibold tracking-wide text-white">The AquiferOps way</p>
+        <span class="mt-1.5 inline-flex items-center gap-1.5 rounded-full bg-white/25 px-3 py-1 text-xs font-bold text-white ring-1 ring-white/40">
+          <span class="h-1.5 w-1.5 rounded-full bg-emerald-300"></span> one connected system
+        </span>
+        <div class="mt-4 rounded-2xl bg-white p-4 shadow-lg" role="img" aria-label="A clean, connected trend line with a confidence band">
+          <svg viewBox="0 0 240 120" class="w-full">
+            <g stroke="#e0f2fe" stroke-width="1"><line x1="30" y1="40" x2="220" y2="40"/><line x1="30" y1="68" x2="220" y2="68"/></g>
+            <path d="M30 16 V96 H220" fill="none" stroke="#bae6fd" stroke-width="1.5"/>
+            <path d="M40 38 L208 74 L208 86 L40 50 Z" fill="#7dd3fc" opacity="0.35"/>
+            <polyline points="40,46 68,52 96,57 124,62 152,68 180,73 208,78" fill="none" stroke="#0284c7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <g fill="#0ea5e9" stroke="#fff" stroke-width="1.5"><circle cx="40" cy="46" r="4"/><circle cx="68" cy="52" r="4"/><circle cx="96" cy="57" r="4"/><circle cx="124" cy="62" r="4"/><circle cx="152" cy="68" r="4"/><circle cx="180" cy="73" r="4"/><circle cx="208" cy="78" r="4"/></g>
+          </svg>
+        </div>
+        <p class="mt-4 text-lg font-semibold leading-snug">One place &mdash; from field data to the final report.</p>
+        <div class="mt-3 flex flex-wrap items-center gap-1.5 text-sm font-semibold text-sky-50">
+          <span>Field</span><span class="text-cyan-200">&#8594;</span>
+          <span>Lab</span><span class="text-cyan-200">&#8594;</span>
+          <span>Science</span><span class="text-cyan-200">&#8594;</span>
+          <span>Report</span><span class="text-cyan-200">&#8594;</span>
+          <span>Client portal</span><span class="text-cyan-200">&#8594;</span>
+          <span>Billing</span>
+        </div>
+        <a href="#waitlist" class="mt-5 inline-block self-start rounded-full bg-white px-5 py-2.5 text-sm font-bold text-brand-700 shadow hover:bg-sky-50">See how it works &#8594;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Features ===== -->
+  <section id="features" class="bg-slate-50 py-20">
+    <div class="mx-auto max-w-6xl px-5">
+      <h2 class="text-center text-3xl font-bold tracking-tight text-navy">One system, the whole workflow</h2>
+      <p class="mx-auto mt-4 max-w-2xl text-center text-slate-600">Everything a groundwater consulting firm does &mdash; connected.</p>
+      <p class="mx-auto mt-3 max-w-2xl text-center text-slate-600">Enter your data once, and it flows everywhere.</p>
+      <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- each card gets its own accent color -->
+        <div class="card relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6">
+          <div class="flow-accent absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-400 to-sky-600" style="--d:0s"></div>
+          <div class="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-sky-400 to-sky-600 text-xl shadow-sm shadow-sky-200">📲</div>
+          <h3 class="font-semibold text-sky-700">Field data capture</h3>
+          <p class="mt-2 text-sm text-slate-600">Made for the field — glove-friendly buttons and offline entry for water-level rounds, so a dead zone never stops you. Sampling, purge logs, and lab data flow into the same record, with no paper sheets to transcribe.</p>
+        </div>
+        <div class="card relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6">
+          <div class="flow-accent absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-cyan-400 to-cyan-600" style="--d:0.3s"></div>
+          <div class="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-cyan-600 text-xl shadow-sm shadow-cyan-200">🧪</div>
+          <h3 class="font-semibold text-cyan-700">Lab data, imported</h3>
+          <p class="mt-2 text-sm text-slate-600">Drop in a lab spreadsheet and match the columns once. Exceedances flag automatically against the binding state and federal standards.</p>
+        </div>
+        <div class="card relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6">
+          <div class="flow-accent absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-teal-400 to-teal-600" style="--d:0.6s"></div>
+          <div class="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-teal-400 to-teal-600 text-xl shadow-sm shadow-teal-200">📈</div>
+          <h3 class="font-semibold text-teal-700">The science, built in</h3>
+          <p class="mt-2 text-sm text-slate-600">Theis &amp; Cooper-Jacob aquifer-test solvers, Mann-Kendall (Sen&rsquo;s slope) trend tests, Kaplan-Meier &amp; ROS non-detect statistics, plume &amp; potentiometric maps, and ASTM D2487 / USCS soil logs — peer-reviewed methods, no separate desktop software.</p>
+        </div>
+        <div class="card relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6">
+          <div class="flow-accent absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-400 to-emerald-600" style="--d:0.9s"></div>
+          <div class="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-xl shadow-sm shadow-emerald-200">📄</div>
+          <h3 class="font-semibold text-emerald-700">Regulator-ready reports</h3>
+          <p class="mt-2 text-sm text-slate-600">Tables, figures, and narrative assembled from your approved data into a clean, defensible deliverable — with the review status of every data point shown.</p>
+        </div>
+        <div class="card relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6">
+          <div class="flow-accent absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-amber-400 to-amber-500" style="--d:1.2s"></div>
+          <div class="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-amber-500 text-xl shadow-sm shadow-amber-200">⏱️</div>
+          <h3 class="font-semibold text-amber-700">QA/QC &amp; holding times</h3>
+          <p class="mt-2 text-sm text-slate-600">Chain-of-custody, a holding-time clock against EPA SW-846 / state limits, and a review-and-approve trail so nothing unverified slips into a report.</p>
+        </div>
+        <div class="card relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6">
+          <div class="flow-accent absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue-500 to-blue-700" style="--d:1.5s"></div>
+          <div class="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 text-xl shadow-sm shadow-blue-200">💼</div>
+          <h3 class="font-semibold text-blue-700">Clients &amp; billing</h3>
+          <p class="mt-2 text-sm text-slate-600">Projects, time, expenses and invoicing — all in the same place as the science, so nothing falls through the cracks.</p>
+        </div>
+        <div class="card relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 sm:col-span-2 lg:col-span-3">
+          <div class="flow-accent absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-500 to-cyan-500" style="--d:1.8s"></div>
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+            <div class="inline-flex h-11 w-11 flex-none items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-cyan-500 text-xl shadow-sm shadow-cyan-200">🌐</div>
+            <div>
+              <h3 class="font-semibold text-brand-700">Client portal</h3>
+              <p class="mt-1 text-sm text-slate-600 sm:max-w-3xl">Give each client a secure, read-only window into their own project — they see approved deliverables on demand, so you field fewer &ldquo;can you resend that?&rdquo; emails.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== How ===== -->
+  <section id="how" class="mx-auto max-w-6xl px-5 py-20">
+    <h2 class="text-center text-3xl font-bold tracking-tight text-navy">Enter once. Use everywhere.</h2>
+    <p class="mx-auto mt-4 max-w-xl text-center text-slate-600">One connected path — from the first field reading to the final deliverable.</p>
+
+    <div class="relative mt-16">
+      <!-- flowing connector line (desktop) links the three steps into one path -->
+      <div class="pointer-events-none absolute left-[16.6%] right-[16.6%] top-7 hidden h-1 rounded-full bg-gradient-to-r from-sky-400 via-cyan-400 to-emerald-400 md:block"></div>
+
+      <div class="grid gap-12 md:grid-cols-3">
+        <!-- Step 1 — sky -->
+        <div class="relative flex flex-col items-center text-center">
+          <span class="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-sky-400 to-sky-600 text-xl font-bold text-white shadow-lg shadow-sky-300/50 ring-4 ring-white">1</span>
+          <div class="mt-4 text-xs font-bold tracking-wide text-sky-600">Step 1</div>
+          <h3 class="mt-0.5 text-lg font-semibold text-navy">Collect</h3>
+          <p class="mt-2 max-w-xs text-sm text-slate-600">Run water-level rounds on a phone or tablet — big buttons for gloved hands that work with no signal and sync when you&rsquo;re back in range.</p>
+        </div>
+        <!-- Step 2 — cyan/teal -->
+        <div class="relative flex flex-col items-center text-center">
+          <span class="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 to-teal-500 text-xl font-bold text-white shadow-lg shadow-cyan-300/50 ring-4 ring-white">2</span>
+          <div class="mt-4 text-xs font-bold tracking-wide text-teal-600">Step 2</div>
+          <h3 class="mt-0.5 text-lg font-semibold text-navy">Analyze</h3>
+          <p class="mt-2 max-w-xs text-sm text-slate-600">Trends, plumes, statistics, and exceedance checks update automatically as data arrives.</p>
+        </div>
+        <!-- Step 3 — emerald -->
+        <div class="relative flex flex-col items-center text-center">
+          <span class="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 text-xl font-bold text-white shadow-lg shadow-emerald-300/50 ring-4 ring-white">3</span>
+          <div class="mt-4 text-xs font-bold tracking-wide text-emerald-600">Step 3</div>
+          <h3 class="mt-0.5 text-lg font-semibold text-navy">Deliver</h3>
+          <p class="mt-2 max-w-xs text-sm text-slate-600">One click turns approved data into a regulator-ready report. Share it through a secure client portal. Billing is handled in the same&nbsp;place.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Why the science holds up (credibility) ===== -->
+  <section id="science" class="bg-gradient-to-br from-navy via-brand-900 to-brand-700 py-20 text-white">
+    <div class="mx-auto max-w-5xl px-5">
+      <h2 class="text-center text-3xl font-bold tracking-tight md:text-4xl">Why the science holds up</h2>
+      <p class="mx-auto mt-4 max-w-2xl text-center text-sky-100">Built by practicing hydrogeologists, on the peer-reviewed methods the field trusts — so every number is defensible, from field data to the final report.</p>
+      <div class="mt-12 grid gap-6 text-left md:grid-cols-3">
+        <div class="card relative overflow-hidden rounded-2xl bg-white/10 p-7 shadow-xl shadow-black/20 ring-1 ring-white/25 backdrop-blur-sm">
+          <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-300 to-cyan-300"></div>
+          <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 to-cyan-500 text-white shadow-lg shadow-cyan-500/40">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <h3 class="text-lg font-bold">Peer-reviewed methods</h3>
+          <p class="mt-2 text-sm leading-relaxed text-sky-100">The solvers and statistics are the published, standard methods — Theis, Cooper-Jacob, Mann-Kendall, Kaplan-Meier — not black-box approximations.</p>
+        </div>
+        <div class="card relative overflow-hidden rounded-2xl bg-white/10 p-7 shadow-xl shadow-black/20 ring-1 ring-white/25 backdrop-blur-sm">
+          <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-300 to-cyan-300"></div>
+          <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 to-cyan-500 text-white shadow-lg shadow-cyan-500/40">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <h3 class="text-lg font-bold">Defensible &amp; traceable</h3>
+          <p class="mt-2 text-sm leading-relaxed text-sky-100">Every result traces back to its source data, carrying its QA/QC review status on the record — built to stand up to a regulator&rsquo;s scrutiny.</p>
+        </div>
+        <div class="card relative overflow-hidden rounded-2xl bg-white/10 p-7 shadow-xl shadow-black/20 ring-1 ring-white/25 backdrop-blur-sm">
+          <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-300 to-cyan-300"></div>
+          <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 to-cyan-500 text-white shadow-lg shadow-cyan-500/40">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 class="text-lg font-bold">Built by groundwater scientists</h3>
+          <p class="mt-2 text-sm leading-relaxed text-sky-100">Designed by people who do this work — around the way real groundwater investigations actually run, from the field to the lab to the report.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Pricing ===== -->
+  <section id="pricing" class="relative overflow-hidden bg-gradient-to-br from-sky-50 via-cyan-50 to-teal-50 py-24">
+    <!-- decorative color blobs -->
+    <div class="pointer-events-none absolute -left-24 top-8 h-72 w-72 rounded-full bg-cyan-300/40 blur-3xl"></div>
+    <div class="pointer-events-none absolute -right-20 bottom-4 h-80 w-80 rounded-full bg-sky-300/40 blur-3xl"></div>
+
+    <div class="relative mx-auto max-w-6xl px-5">
+      <h2 class="text-center text-3xl font-extrabold tracking-tight md:text-4xl">
+        <span class="text-navy">Straightforward pricing. No surprises.</span>
+      </h2>
+      <p class="mx-auto mt-4 max-w-2xl text-center text-slate-600">Per user, per month. 14-day free trial, no setup fee — a fraction of the cost of enterprise environmental-data systems.</p>
+
+      <div class="mt-14 grid items-stretch gap-6 md:grid-cols-3">
+
+        <!-- Solo -->
+        <div class="card relative overflow-hidden rounded-3xl border border-sky-100 bg-white p-7 shadow-lg shadow-sky-100/60">
+          <div class="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-sky-400 to-sky-600"></div>
+          <h3 class="text-sm font-bold uppercase tracking-wider text-sky-600">Solo</h3>
+          <p class="mt-3 text-4xl font-extrabold text-navy">$49<span class="text-base font-medium text-slate-400">/user/mo</span></p>
+          <p class="mt-1 text-sm text-slate-500">Independent consultants</p>
+          <ul class="mt-5 space-y-2.5 text-sm text-slate-600">
+            <li class="flex gap-2"><span class="font-bold text-sky-500">✓</span> Clients, projects, time &amp; invoicing</li>
+            <li class="flex gap-2"><span class="font-bold text-sky-500">✓</span> Field data, lab import, calculators</li>
+            <li class="flex gap-2"><span class="font-bold text-sky-500">✓</span> Regulator-ready report builder</li>
+            <li class="flex gap-2"><span class="font-bold text-sky-500">✓</span> Client portal to share deliverables</li>
+          </ul>
+          <a href="#waitlist" class="mt-7 block rounded-full border border-sky-300 bg-white px-5 py-2.5 text-center text-sm font-semibold text-sky-700 hover:bg-sky-50">Start with Solo</a>
+        </div>
+
+        <!-- Team (featured) -->
+        <div class="card relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-600 via-brand-500 to-cyan-500 p-7 text-white shadow-2xl shadow-cyan-500/30 ring-1 ring-white/30 md:-my-4">
+          <div class="absolute right-5 top-5 rounded-full bg-amber-400 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-950 shadow">Most popular</div>
+          <h3 class="text-sm font-bold uppercase tracking-wider text-cyan-100">Team</h3>
+          <p class="mt-3 text-5xl font-extrabold">$59<span class="text-base font-medium text-cyan-100">/user/mo</span></p>
+          <p class="mt-1 text-sm text-cyan-100">2–15 person firms</p>
+          <ul class="mt-5 space-y-2.5 text-sm text-sky-50">
+            <li class="flex gap-2"><span class="font-bold text-white">✓</span> Everything in Solo</li>
+            <li class="flex gap-2"><span class="font-bold text-white">✓</span> Multiple client contacts</li>
+            <li class="flex gap-2"><span class="font-bold text-white">✓</span> QA/QC review &amp; approvals</li>
+            <li class="flex gap-2"><span class="font-bold text-white">✓</span> Meetings, tasks &amp; expenses</li>
+          </ul>
+          <a href="#waitlist" class="mt-7 block rounded-full bg-white px-5 py-2.5 text-center text-sm font-bold text-brand-700 shadow hover:bg-sky-50">Get early access →</a>
+        </div>
+
+        <!-- Firm -->
+        <div class="card relative overflow-hidden rounded-3xl border border-teal-100 bg-white p-7 shadow-lg shadow-teal-100/60">
+          <div class="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-cyan-500 to-teal-500"></div>
+          <h3 class="text-sm font-bold uppercase tracking-wider text-teal-600">Firm</h3>
+          <p class="mt-3 text-4xl font-extrabold text-navy">$75<span class="text-base font-medium text-slate-400">/user/mo</span></p>
+          <p class="mt-1 text-sm text-slate-500">Larger / multi-team firms</p>
+          <ul class="mt-5 space-y-2.5 text-sm text-slate-600">
+            <li class="flex gap-2"><span class="font-bold text-teal-500">✓</span> Everything in Team</li>
+            <li class="flex gap-2"><span class="font-bold text-teal-500">✓</span> Priority support &amp; onboarding</li>
+            <li class="flex gap-2"><span class="font-bold text-teal-500">✓</span> Advanced data standards</li>
+            <li class="flex gap-2"><span class="font-bold text-teal-500">✓</span> Accounting exports</li>
+          </ul>
+          <a href="#waitlist" class="mt-7 block rounded-full border border-teal-300 bg-white px-5 py-2.5 text-center text-sm font-semibold text-teal-700 hover:bg-teal-50">Talk to us</a>
+        </div>
+      </div>
+      <p class="mt-10 text-center text-xs text-slate-500">Pricing shown for early-access firms and subject to change before general availability.</p>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section id="faq" class="bg-slate-50 py-20">
+    <div class="mx-auto max-w-4xl px-5">
+      <h2 class="text-center text-3xl font-bold tracking-tight text-navy">Questions firms ask</h2>
+      <div class="mt-10 grid gap-5 md:grid-cols-2">
+        <div class="rounded-2xl border border-slate-200 bg-white p-6">
+          <h3 class="font-semibold text-navy">Is my data private and secure?</h3>
+          <p class="mt-2 text-sm text-slate-600">Yes. Each firm&rsquo;s data is kept private to that firm, hosted on secure, industry-standard cloud infrastructure, and never sold or shared. You stay the owner of your data.</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-6">
+          <h3 class="font-semibold text-navy">Can I get my data back out?</h3>
+          <p class="mt-2 text-sm text-slate-600">Always. Reports download as finished files, and your records and accounting can be exported to spreadsheet (CSV). Your data is yours to take with you.</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-6">
+          <h3 class="font-semibold text-navy">Which regulations does it support?</h3>
+          <p class="mt-2 text-sm text-slate-600">AquiferOps is built around the federal EPA (SW-846) and ASTM standards used nationwide, with state-specific limits configurable. We&rsquo;re getting a few states deeply right first &mdash; tell us yours and we&rsquo;ll share where it stands.</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-6">
+          <h3 class="font-semibold text-navy">How hard is it to switch from my current tools?</h3>
+          <p class="mt-2 text-sm text-slate-600">You can import lab results and data-logger files with guided column-matching, so you&rsquo;re not starting from scratch &mdash; and during early access we&rsquo;ll help your team get set up.</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-6">
+          <h3 class="font-semibold text-navy">Do I need a signal in the field?</h3>
+          <p class="mt-2 text-sm text-slate-600">Not for water-level rounds &mdash; those work fully offline and sync when you&rsquo;re back in range. Other field entry needs a connection.</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-6">
+          <h3 class="font-semibold text-navy">Who is AquiferOps for?</h3>
+          <p class="mt-2 text-sm text-slate-600">Small and mid-size environmental and hydrogeology consulting firms &mdash; from independent consultants to multi-team practices &mdash; that handle field data, lab results, the science, and regulator-ready reporting.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Waitlist ===== -->
+  <section id="waitlist" class="mx-auto max-w-3xl px-5 py-20 text-center">
+    <h2 class="text-3xl font-bold tracking-tight text-navy">Get early access</h2>
+    <p class="mx-auto mt-4 max-w-xl text-slate-600">We're onboarding a small group of firms first. Leave your email and we'll be in touch about getting your team set up.</p>
+
+    <!-- NOTE FOR LATER: this form just shows a thank-you in the browser. To
+         actually collect emails, wire the form to a service (Formspree, Tally,
+         ConvertKit, etc.) or your own endpoint — happy to set that up. -->
+    <form id="waitlistForm" class="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row">
+      <input id="email" name="email" type="email" required placeholder="you@yourfirm.com"
+        class="flex-1 rounded-full border border-slate-300 px-5 py-3 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500" />
+      <button type="submit" id="waitlistBtn" class="rounded-full bg-brand-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-brand-700 disabled:opacity-60">Request access</button>
+    </form>
+    <p class="mx-auto mt-3 text-xs text-slate-400">Just your email — no commitment, and we'll never share it.</p>
+    <p id="waitlistThanks" class="mt-4 hidden text-sm font-medium text-emerald-700">Thank you — you're on the list. We'll be in touch soon.</p>
+    <p id="waitlistError" class="mt-4 hidden text-sm font-medium text-rose-600">Something went wrong — please email <a href="mailto:earlyaccess@aquiferops.com" class="underline">earlyaccess@aquiferops.com</a> and we'll add you.</p>
+  </section>
+
+  <!-- ===== Repeated water feature: animated wave divider above footer ===== -->
+  <div aria-hidden="true" class="pointer-events-none -mb-px select-none overflow-hidden bg-white">
+    <svg class="block w-full" viewBox="0 0 1440 120" preserveAspectRatio="none" style="height:clamp(72px,9vw,120px)">
+      <g class="wave-c" opacity="0.5"><path fill="#7dd3fc" d="M0,70 c90,-16 270,-16 360,0 c90,16 270,16 360,0 c90,-16 270,-16 360,0 c90,16 270,16 360,0 c90,-16 270,-16 360,0 c90,16 270,16 360,0 c90,-16 270,-16 360,0 c90,16 270,16 360,0 L2880,120 L0,120 Z"/></g>
+      <g class="wave-b" opacity="0.7"><path fill="#0ea5e9" d="M0,84 c90,-14 270,-14 360,0 c90,14 270,14 360,0 c90,-14 270,-14 360,0 c90,14 270,14 360,0 c90,-14 270,-14 360,0 c90,14 270,14 360,0 c90,-14 270,-14 360,0 c90,14 270,14 360,0 L2880,120 L0,120 Z"/></g>
+      <g class="wave-a"><path fill="#0369a1" d="M0,96 c90,-12 270,-12 360,0 c90,12 270,12 360,0 c90,-12 270,-12 360,0 c90,12 270,12 360,0 c90,-12 270,-12 360,0 c90,12 270,12 360,0 c90,-12 270,-12 360,0 c90,12 270,12 360,0 L2880,120 L0,120 Z"/></g>
+    </svg>
+  </div>
+
+  <!-- ===== Footer ===== -->
+  <footer class="bg-navy text-sky-100">
+    <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-5 py-8 text-sm text-sky-200 sm:flex-row">
+      <div class="flex items-center gap-2 font-semibold text-white">
+        <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-brand-400 to-cyan-400 text-navy">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2.5c4 5 6.5 8 6.5 11.2A6.5 6.5 0 0 1 12 20.2a6.5 6.5 0 0 1-6.5-6.5C5.5 10.5 8 7.5 12 2.5z"/></svg>
+        </span>
+        AquiferOps
+      </div>
+      <p>A product of Sapient Synergy LLC. © <span id="year"></span> All rights reserved.</p>
+      <!-- EDIT ME: set a real contact inbox you monitor -->
+      <a href="mailto:earlyaccess@aquiferops.com" class="text-sky-200 hover:text-white">earlyaccess@aquiferops.com</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (menuBtn && mobileMenu) {
+      menuBtn.addEventListener('click', function () {
+        const nowOpen = mobileMenu.classList.toggle('hidden') === false;
+        menuBtn.setAttribute('aria-expanded', String(nowOpen));
+      });
+      mobileMenu.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function () {
+          mobileMenu.classList.add('hidden');
+          menuBtn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+
+    // === Waitlist capture ===
+    // STEP TO GO LIVE: create a free form at https://formspree.io (New form →
+    // send notifications to earlyaccess@aquiferops.com) and paste its endpoint
+    // below, replacing YOUR_FORM_ID. Until then, the form shows the thank-you
+    // but does NOT store the address.
+    const WAITLIST_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+
+    const form = document.getElementById('waitlistForm');
+    const thanks = document.getElementById('waitlistThanks');
+    const errorMsg = document.getElementById('waitlistError');
+    const btn = document.getElementById('waitlistBtn');
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      errorMsg.classList.add('hidden');
+
+      // Not configured yet → show the thank-you so the page still feels live.
+      if (WAITLIST_ENDPOINT.includes('YOUR_FORM_ID')) {
+        form.classList.add('hidden');
+        thanks.classList.remove('hidden');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      try {
+        const res = await fetch(WAITLIST_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form),
+        });
+        if (res.ok) {
+          form.classList.add('hidden');
+          thanks.classList.remove('hidden');
+        } else {
+          errorMsg.classList.remove('hidden');
+          btn.disabled = false;
+          btn.textContent = 'Request access';
+        }
+      } catch (err) {
+        errorMsg.classList.remove('hidden');
+        btn.disabled = false;
+        btn.textContent = 'Request access';
+      }
+    });
+  </script>
+</body>
+</html>
