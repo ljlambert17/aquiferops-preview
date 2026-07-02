@@ -16,6 +16,9 @@
 
   <!-- Tailwind via CDN keeps this a single, portable file for review. For the
        live site, Tim can swap to a compiled build (no other changes needed). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -25,12 +28,13 @@
             brand: { 50:'#f0f9ff',100:'#e0f2fe',300:'#7dd3fc',500:'#0ea5e9',600:'#0284c7',700:'#0369a1',900:'#0c4a6e' },
             navy: '#1e3a8a',
           },
-          fontFamily: { sans: ['ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','Helvetica','Arial','sans-serif'] },
+          fontFamily: { sans: ['Sora','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','Helvetica','Arial','sans-serif'] },
         },
       },
     };
   </script>
   <style>
+    body { font-family: 'Sora', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
     .hero-gradient { background:
       radial-gradient(1200px 520px at 72% -8%, rgba(14,165,233,.22), transparent 60%),
       linear-gradient(180deg, #eaf6ff 0%, #f0f9ff 38%, #ffffff 100%); }
@@ -113,7 +117,7 @@
           <span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span> Now onboarding early firms
         </span>
         <h1 class="mt-5 text-4xl font-bold leading-tight tracking-tight text-navy md:text-5xl">
-          From field data to regulator-ready report — in one system.
+          Groundwork: more science, one system.
         </h1>
         <p class="mt-5 max-w-xl text-lg text-slate-600">
           For small and mid-size environmental &amp; hydrogeology firms, the same data moves
