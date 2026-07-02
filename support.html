@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AquiferOps — Help &amp; Support</title>
+  <meta name="description" content="Help and support for AquiferOps — getting started, importing data, running analysis, reports, and your account. Answers to the questions consulting firms ask most." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50:'#f0f9ff',100:'#e0f2fe',300:'#7dd3fc',500:'#0ea5e9',600:'#0284c7',700:'#0369a1',900:'#0c4a6e' },
+            navy: '#1e3a8a',
+          },
+          fontFamily: { sans: ['ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','Helvetica','Arial','sans-serif'] },
+        },
+      },
+    };
+  </script>
+  <style>
+    .hero-gradient { background:
+      radial-gradient(1200px 520px at 72% -8%, rgba(14,165,233,.22), transparent 60%),
+      linear-gradient(180deg, #eaf6ff 0%, #f0f9ff 38%, #ffffff 100%); }
+    .card { transition: transform .15s ease, box-shadow .15s ease; }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px -12px rgba(2,132,199,.35); }
+    @keyframes drift-left  { from { transform: translateX(0); }        to { transform: translateX(-1440px); } }
+    @keyframes drift-right { from { transform: translateX(-1440px); }  to { transform: translateX(0); } }
+    .wave-a { animation: drift-left 14s linear infinite; }
+    .wave-b { animation: drift-right 20s linear infinite; }
+    .wave-c { animation: drift-left 28s linear infinite; }
+    @media (prefers-reduced-motion: reduce) { .wave-a,.wave-b,.wave-c { animation: none; } }
+    summary::-webkit-details-marker { display: none; }
+    summary { list-style: none; }
+  </style>
+</head>
+<body class="font-sans text-slate-800 antialiased">
+
+  <!-- ===== Nav ===== -->
+  <header class="sticky top-0 z-30 border-b border-sky-100 bg-white/80 backdrop-blur">
+    <nav class="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
+      <a href="index.html#top" class="flex items-center gap-2 font-semibold text-navy">
+        <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-cyan-500 text-white shadow-sm">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2.5c4 5 6.5 8 6.5 11.2A6.5 6.5 0 0 1 12 20.2a6.5 6.5 0 0 1-6.5-6.5C5.5 10.5 8 7.5 12 2.5z"/><circle cx="9.6" cy="15.2" r="3.2" fill="#38bdf8"/></svg>
+        </span>
+        AquiferOps
+      </a>
+      <div class="hidden items-center gap-7 text-sm font-medium text-slate-600 md:flex">
+        <a href="index.html#problem" class="hover:text-navy">Why</a>
+        <a href="index.html#features" class="hover:text-navy">What it does</a>
+        <a href="index.html#how" class="hover:text-navy">How it works</a>
+        <a href="index.html#pricing" class="hover:text-navy">Pricing</a>
+        <a href="support.html" class="font-semibold text-navy">Support</a>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="index.html#waitlist" class="hidden rounded-full bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-brand-700 md:inline-block">Join early access</a>
+        <button id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-navy hover:bg-sky-50 md:hidden">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </nav>
+    <div id="mobileMenu" class="hidden border-t border-sky-100 bg-white md:hidden">
+      <div class="space-y-1 px-5 py-3 text-sm font-medium text-slate-700">
+        <a href="index.html#problem" class="block rounded-lg px-3 py-2 hover:bg-sky-50">Why</a>
+        <a href="index.html#features" class="block rounded-lg px-3 py-2 hover:bg-sky-50">What it does</a>
+        <a href="index.html#how" class="block rounded-lg px-3 py-2 hover:bg-sky-50">How it works</a>
+        <a href="index.html#pricing" class="block rounded-lg px-3 py-2 hover:bg-sky-50">Pricing</a>
+        <a href="support.html" class="block rounded-lg px-3 py-2 hover:bg-sky-50">Support</a>
+        <a href="index.html#waitlist" class="mt-1 block rounded-full bg-brand-600 px-4 py-2 text-center font-semibold text-white">Join early access</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section id="top" class="hero-gradient relative overflow-hidden">
+    <div class="relative z-10 mx-auto max-w-3xl px-5 pt-20 pb-16 text-center md:pt-24">
+      <span class="inline-flex items-center gap-2 rounded-full bg-brand-100 px-3 py-1 text-xs font-semibold text-brand-700">
+        <span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span> We're here to help
+      </span>
+      <h1 class="mt-5 text-4xl font-bold leading-tight tracking-tight text-navy md:text-5xl">Help &amp; Support</h1>
+      <p class="mx-auto mt-5 max-w-2xl text-lg text-slate-600">
+        Answers to the questions firms ask most — getting set up, bringing your data in,
+        running the science, reports, and your account. During early access, our team also
+        helps your firm get going directly.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="#getting-started" class="rounded-full bg-brand-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-brand-700">Start here</a>
+        <a href="mailto:earlyaccess@aquiferops.com" class="rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">Email our team</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Category quick links ===== -->
+  <section class="mx-auto -mt-6 max-w-5xl px-5">
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <a href="#getting-started" class="card rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <p class="font-semibold text-navy">Getting started</p>
+        <p class="mt-1 text-sm text-slate-600">Signing in, adding your team, your first hour.</p>
+      </a>
+      <a href="#your-data" class="card rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <p class="font-semibold text-navy">Bringing in your data</p>
+        <p class="mt-1 text-sm text-slate-600">Lab imports, field readings, non-detects.</p>
+      </a>
+      <a href="#analysis" class="card rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <p class="font-semibold text-navy">Analysis &amp; results</p>
+        <p class="mt-1 text-sm text-slate-600">Trends, exceedance flags, the methods behind them.</p>
+      </a>
+      <a href="#reports" class="card rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <p class="font-semibold text-navy">Reports &amp; sharing</p>
+        <p class="mt-1 text-sm text-slate-600">Building reports, the client portal, exporting.</p>
+      </a>
+      <a href="#account" class="card rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <p class="font-semibold text-navy">Account &amp; privacy</p>
+        <p class="mt-1 text-sm text-slate-600">Pricing, plans, security, your data.</p>
+      </a>
+      <a href="#contact" class="card rounded-2xl border border-brand-200 bg-brand-50 p-5 shadow-sm">
+        <p class="font-semibold text-brand-700">Still need help?</p>
+        <p class="mt-1 text-sm text-slate-600">Reach a real person on our team.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== FAQ sections ===== -->
+  <main class="mx-auto max-w-3xl px-5 py-16">
+
+    <!-- Getting started -->
+    <h2 id="getting-started" class="scroll-mt-24 text-2xl font-bold tracking-tight text-navy">Getting started</h2>
+    <div class="mt-6 space-y-3">
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>How do I sign in or get an account?</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">Your firm&rsquo;s admin invites you by email. Click the invite, set a password, and you&rsquo;ll land in your firm&rsquo;s private workspace. Nothing to install &mdash; AquiferOps runs in your web browser on a computer, phone, or tablet.</p>
+      </details>
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>I didn&rsquo;t get my invitation email.</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">Check your spam or junk folder and search for &ldquo;AquiferOps.&rdquo; If it&rsquo;s still missing, your firm&rsquo;s admin can re-send the invite &mdash; and if the link is old it may have expired, so ask for a fresh one.</p>
+      </details>
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>I forgot my password.</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">Use the &ldquo;Forgot password&rdquo; link on the sign-in screen to reset it by email. Be sure to use the same email address your invite was sent to.</p>
+      </details>
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>I&rsquo;m signed in but the screen looks empty or wrong.</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">You&rsquo;re likely in the wrong workspace. Look at the workspace switcher in the top-right corner and switch to your firm. Each firm&rsquo;s data is private to its own workspace, so nothing crosses over.</p>
+      </details>
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>Where do I start? What&rsquo;s the first thing to do?</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">A simple first path: add a <strong>client</strong> (under Work), create a <strong>project</strong> for them, add a <strong>site and its wells</strong> (under Field), bring in your data, then open the site to see your first analysis. During early access we&rsquo;ll walk your team through it.</p>
+      </details>
+    </div>
+
+    <!-- Your data -->
+    <h2 id="your-data" class="mt-14 scroll-mt-24 text-2xl font-bold tracking-tight text-navy">Bringing in your data</h2>
+    <div class="mt-6 space-y-3">
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>How do I get my lab results in?</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">Import your lab&rsquo;s electronic data file into the project. The first time a lab&rsquo;s format is new, you match its columns once and AquiferOps remembers it. As results load, each one is automatically checked against the binding limits and any exceedances are flagged.</p>
+      </details>
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>My lab file won&rsquo;t import.</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">Usually it&rsquo;s an unsupported file type or a missing required column. Double-check the file, and if it still won&rsquo;t go, send it to our team rather than forcing a workaround &mdash; we&rsquo;ll make sure it loads correctly.</p>
+      </details>
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>How do I enter a &ldquo;non-detect&rdquo; result?</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">Enter it as a non-detect &mdash; don&rsquo;t substitute a made-up number like zero. AquiferOps handles non-detects correctly in the statistics using accepted methods (Kaplan-Meier and ROS), so entering them honestly keeps your numbers defensible.</p>
+      </details>
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>My field readings aren&rsquo;t showing up.</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">Field mode works offline and syncs when the device is back in signal. Make sure the device that recorded the readings has reconnected so the sync can finish &mdash; and don&rsquo;t re-enter them elsewhere first, or you may create duplicates.</p>
+      </details>
+    </div>
+
+    <!-- Analysis -->
+    <h2 id="analysis" class="mt-14 scroll-mt-24 text-2xl font-bold tracking-tight text-navy">Analysis &amp; results</h2>
+    <div class="mt-6 space-y-3">
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>Why don&rsquo;t I see a trend for an analyte yet?</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">A trend needs enough sampling events over time to be meaningful. With only one or two results there isn&rsquo;t yet enough data to draw a trend &mdash; add the missing sampling events and it will populate.</p>
+      </details>
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>An exceedance flag looks wrong to me.</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">First check that the value, units, and analyte name are entered correctly &mdash; a unit mismatch is the usual culprit. Whether a flagged result is truly a regulatory exceedance, and what to do about it, is a professional judgment call &mdash; and our team is glad to talk it through with you.</p>
+      </details>
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>Which regulations does it check my data against?</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">It&rsquo;s built around the federal EPA (SW-846) and ASTM standards used nationwide, with state-specific limits configurable. We&rsquo;re getting a few states deeply right first &mdash; tell us yours and we&rsquo;ll share where it stands before you rely on the flags.</p>
+      </details>
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>Can I trust the math?</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">The methods are the published, standard ones the field already trusts &mdash; Mann-Kendall with Sen&rsquo;s slope for trends, Kaplan-Meier and ROS for non-detects, ASTM D2487 / USCS for soils, EPA SW-846 for holding times &mdash; not black-box approximations. Every result traces back to its source data.</p>
+      </details>
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>A holding time shows as overdue &mdash; what does that mean?</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">The holding-time clock counts each sample against its lab limit (EPA SW-846 / state). &ldquo;Overdue&rdquo; means a sample has passed that limit, and your dashboard surfaces it under &ldquo;What needs you today.&rdquo; What to do about it is a professional decision &mdash; our team can help you think it through.</p>
+      </details>
+    </div>
+
+    <!-- Reports -->
+    <h2 id="reports" class="mt-14 scroll-mt-24 text-2xl font-bold tracking-tight text-navy">Reports &amp; sharing</h2>
+    <div class="mt-6 space-y-3">
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>My report is missing figures or tables.</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">Reports assemble from your project data, so a missing figure usually means the underlying data isn&rsquo;t in yet or isn&rsquo;t marked ready. Add or approve the underlying data, then rebuild the report.</p>
+      </details>
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>The report format doesn&rsquo;t match what my regulator wants.</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">Reports are built to a regulator-ready structure, and templates can be tailored to your firm. If your state or program needs a specific layout, tell us the exact requirement and we&rsquo;ll get it set up.</p>
+      </details>
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>How do I share a project with my client?</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">The client portal gives each client a secure, read-only view of their own project &mdash; approved deliverables only, by a private link, scoped to the projects you choose, and revocable anytime. It&rsquo;s included in every plan at no extra cost.</p>
+      </details>
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>How do I get my data or reports back out?</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">Reports download as finished files, and your records and accounting export to spreadsheet (CSV). You own your data and can take it with you anytime.</p>
+      </details>
+    </div>
+
+    <!-- Account -->
+    <h2 id="account" class="mt-14 scroll-mt-24 text-2xl font-bold tracking-tight text-navy">Account &amp; privacy</h2>
+    <div class="mt-6 space-y-3">
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>What does it cost, and how do I change my plan?</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">Pricing is per user, per month, with a free trial and no setup fee. See the pricing page for current tiers, and manage plan changes in your account settings. During early access, reach out and we&rsquo;ll get you sorted.</p>
+      </details>
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>Is my data private and secure?</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">Yes. Each firm&rsquo;s data is kept private to that firm, hosted on secure, industry-standard cloud infrastructure, and never sold or shared. You stay the owner of your data.</p>
+      </details>
+      <details class="group rounded-2xl border border-slate-200 bg-white px-5 shadow-sm open:shadow-md open:ring-1 open:ring-brand-100">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 py-5 font-semibold text-navy">
+          <span class="flex items-center gap-3"><span class="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-cyan-500 text-xs font-bold text-white">Q</span>What happens to my data if I cancel?</span>
+          <svg class="h-5 w-5 flex-none text-brand-500 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p class="pb-5 pl-10 pr-2 text-sm leading-relaxed text-slate-600">You can export your records and reports at any time (files and CSV), so your work is always yours to keep.</p>
+      </details>
+    </div>
+
+    <!-- Contact -->
+    <section id="contact" class="mt-16 scroll-mt-24 rounded-3xl bg-gradient-to-br from-brand-600 via-brand-500 to-cyan-500 p-8 text-center text-white shadow-2xl shadow-cyan-500/30">
+      <h2 class="text-2xl font-bold tracking-tight">Still need help?</h2>
+      <p class="mx-auto mt-3 max-w-lg text-sky-50">Didn&rsquo;t find your answer here? Our team is glad to help &mdash; especially with anything that calls for a professional or regulatory judgment. During early access we help your firm directly.</p>
+      <a href="mailto:earlyaccess@aquiferops.com" class="mt-6 inline-block rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-700 shadow-sm hover:bg-sky-50">earlyaccess@aquiferops.com</a>
+    </section>
+
+  </main>
+
+  <!-- ===== Wave divider ===== -->
+  <div aria-hidden="true" class="pointer-events-none -mb-px select-none overflow-hidden bg-white">
+    <svg class="block w-full" viewBox="0 0 1440 120" preserveAspectRatio="none" style="height:clamp(72px,9vw,120px)">
+      <g class="wave-c" opacity="0.5"><path fill="#7dd3fc" d="M0,70 c90,-16 270,-16 360,0 c90,16 270,16 360,0 c90,-16 270,-16 360,0 c90,16 270,16 360,0 c90,-16 270,-16 360,0 c90,16 270,16 360,0 c90,-16 270,-16 360,0 c90,16 270,16 360,0 L2880,120 L0,120 Z"/></g>
+      <g class="wave-b" opacity="0.7"><path fill="#0ea5e9" d="M0,84 c90,-14 270,-14 360,0 c90,14 270,14 360,0 c90,-14 270,-14 360,0 c90,14 270,14 360,0 c90,-14 270,-14 360,0 c90,14 270,14 360,0 c90,-14 270,-14 360,0 c90,14 270,14 360,0 L2880,120 L0,120 Z"/></g>
+      <g class="wave-a"><path fill="#0369a1" d="M0,96 c90,-12 270,-12 360,0 c90,12 270,12 360,0 c90,-12 270,-12 360,0 c90,12 270,12 360,0 c90,-12 270,-12 360,0 c90,12 270,12 360,0 c90,-12 270,-12 360,0 c90,12 270,12 360,0 L2880,120 L0,120 Z"/></g>
+    </svg>
+  </div>
+
+  <!-- ===== Footer ===== -->
+  <footer class="bg-navy text-sky-100">
+    <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-5 py-8 text-sm text-sky-200 sm:flex-row">
+      <div class="flex items-center gap-2 font-semibold text-white">
+        <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-brand-400 to-cyan-400 text-navy">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2.5c4 5 6.5 8 6.5 11.2A6.5 6.5 0 0 1 12 20.2a6.5 6.5 0 0 1-6.5-6.5C5.5 10.5 8 7.5 12 2.5z"/><circle cx="9.6" cy="15.2" r="3.2" fill="#38bdf8"/></svg>
+        </span>
+        AquiferOps
+      </div>
+      <p>A product of Sapient Synergy LLC. © <span id="year"></span> All rights reserved.</p>
+      <a href="mailto:earlyaccess@aquiferops.com" class="text-sky-200 hover:text-white">earlyaccess@aquiferops.com</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (menuBtn && mobileMenu) {
+      menuBtn.addEventListener('click', function () {
+        const nowOpen = mobileMenu.classList.toggle('hidden') === false;
+        menuBtn.setAttribute('aria-expanded', String(nowOpen));
+      });
+      mobileMenu.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function () {
+          mobileMenu.classList.add('hidden');
+          menuBtn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  </script>
+</body>
+</html>
