@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <title>Groundwater Travel-Time Calculator — Free tool from AquiferOps</title>
+  <meta name="description" content="Free groundwater contaminant travel-time calculator: Darcy velocity, seepage velocity, and retarded travel time to a receptor. No sign-up. From AquiferOps." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50:'#f0f9ff',100:'#e0f2fe',300:'#7dd3fc',500:'#0ea5e9',600:'#0284c7',700:'#0369a1',900:'#0c4a6e' },
+            navy: '#1e3a8a',
+          },
+          fontFamily: { sans: ['Sora','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','Helvetica','Arial','sans-serif'] },
+        },
+      },
+    };
+  </script>
+  <style>
+    body { font-family: 'Sora', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    .field { }
+    input, select { font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body class="bg-white text-slate-800">
+  <header class="sticky top-0 z-30 border-b border-sky-100 bg-white/85 backdrop-blur">
+    <nav class="mx-auto flex max-w-5xl items-center justify-between px-5 py-3">
+      <a href="index.html" class="flex items-center gap-2 font-semibold text-navy">
+        <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-cyan-500 text-white shadow-sm">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2.5c4 5 6.5 8 6.5 11.2A6.5 6.5 0 0 1 12 20.2a6.5 6.5 0 0 1-6.5-6.5C5.5 10.5 8 7.5 12 2.5z"/><circle cx="9.6" cy="15.2" r="3.2" fill="#38bdf8"/></svg>
+        </span>
+        AquiferOps
+      </a>
+      <a href="index.html#waitlist" class="rounded-full bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-brand-700">Join early access</a>
+    </nav>
+  </header>
+
+  <main class="mx-auto max-w-5xl px-5 py-10">
+    <div class="mb-8">
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-brand-600">Free tool · no sign-up</p>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight text-navy sm:text-4xl">Groundwater travel-time calculator</h1>
+      <p class="mt-3 max-w-2xl text-slate-600">
+        Estimate how fast groundwater — and a dissolved contaminant — moves through an aquifer,
+        and how long it would take to reach a downgradient receptor. Unlike a plain Darcy
+        calculator, this one includes <strong>retardation</strong> (sorption) and gives you a
+        real travel time, not just a velocity.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-5">
+      <!-- Inputs -->
+      <section class="lg:col-span-3 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Inputs</h2>
+
+        <div class="mt-4 space-y-4">
+          <label class="block">
+            <span class="text-sm font-medium text-slate-700">Aquifer material <span class="text-slate-400">(optional — fills typical values)</span></span>
+            <select id="material" class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500">
+              <option value="custom">Custom / enter my own</option>
+              <option value="gravel">Gravel</option>
+              <option value="coarse">Coarse sand</option>
+              <option value="fine">Fine sand</option>
+              <option value="siltysand">Silty sand</option>
+              <option value="silt">Silt</option>
+              <option value="clay">Clay</option>
+            </select>
+          </label>
+
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <label class="block">
+              <span class="text-sm font-medium text-slate-700">Hydraulic conductivity (K)</span>
+              <div class="mt-1 flex gap-2">
+                <input id="k" type="number" step="any" min="0" value="15" class="block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500" />
+                <select id="kunit" class="rounded-lg border border-slate-300 px-2 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500">
+                  <option value="ftday">ft/day</option>
+                  <option value="mday">m/day</option>
+                  <option value="cms">cm/s</option>
+                </select>
+              </div>
+            </label>
+
+            <label class="block">
+              <span class="text-sm font-medium text-slate-700">Effective porosity (n)</span>
+              <input id="n" type="number" step="any" min="0.001" max="0.6" value="0.28" class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500" />
+            </label>
+          </div>
+
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <label class="block">
+              <span class="text-sm font-medium text-slate-700">Hydraulic gradient (i)</span>
+              <input id="i" type="number" step="any" min="0" value="0.01" class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500" />
+              <span class="mt-1 block text-xs text-slate-400">Don't know it? Use the helper below.</span>
+            </label>
+
+            <label class="block">
+              <span class="text-sm font-medium text-slate-700">Distance to receptor (ft)</span>
+              <input id="dist" type="number" step="any" min="0" value="500" class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500" />
+            </label>
+          </div>
+
+          <!-- Gradient helper -->
+          <details class="rounded-lg bg-slate-50 p-3">
+            <summary class="cursor-pointer text-sm font-medium text-brand-700">Compute gradient from two wells</summary>
+            <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <label class="block">
+                <span class="text-xs text-slate-600">Head difference Δh (ft)</span>
+                <input id="dh" type="number" step="any" min="0" placeholder="e.g. 2.5" class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+              </label>
+              <label class="block">
+                <span class="text-xs text-slate-600">Distance between wells (ft)</span>
+                <input id="dl" type="number" step="any" min="0" placeholder="e.g. 250" class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+              </label>
+            </div>
+            <button id="useGrad" type="button" class="mt-3 rounded-full bg-brand-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-brand-700">Use i = Δh ÷ distance</button>
+          </details>
+
+          <!-- Retardation -->
+          <details class="rounded-lg bg-slate-50 p-3">
+            <summary class="cursor-pointer text-sm font-medium text-brand-700">Retardation (for a sorbing contaminant)</summary>
+            <p class="mt-2 text-xs text-slate-500">Leave R = 1 for a conservative tracer (moves with the water). Or estimate R from bulk density and the distribution coefficient: R = 1 + (ρ<sub>b</sub> · K<sub>d</sub>) ÷ n.</p>
+            <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <label class="block">
+                <span class="text-xs text-slate-600">Retardation factor R</span>
+                <input id="r" type="number" step="any" min="1" value="1" class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+              </label>
+              <label class="block">
+                <span class="text-xs text-slate-600">ρ<sub>b</sub> (g/cm³)</span>
+                <input id="rho" type="number" step="any" min="0" placeholder="1.7" class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+              </label>
+              <label class="block">
+                <span class="text-xs text-slate-600">K<sub>d</sub> (mL/g)</span>
+                <input id="kd" type="number" step="any" min="0" placeholder="0.5" class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+              </label>
+            </div>
+            <button id="useR" type="button" class="mt-3 rounded-full bg-brand-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-brand-700">Estimate R</button>
+          </details>
+        </div>
+      </section>
+
+      <!-- Results -->
+      <section class="lg:col-span-2">
+        <div class="rounded-2xl border border-brand-100 bg-brand-50/60 p-6 shadow-sm">
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-brand-700">Results</h2>
+          <dl class="mt-4 space-y-4">
+            <div>
+              <dt class="text-xs uppercase tracking-wide text-slate-500">Darcy velocity (q = K·i)</dt>
+              <dd id="rDarcy" class="text-lg font-semibold tabular-nums text-navy">—</dd>
+            </div>
+            <div>
+              <dt class="text-xs uppercase tracking-wide text-slate-500">Seepage velocity (q ÷ n)</dt>
+              <dd id="rSeep" class="text-lg font-semibold tabular-nums text-navy">—</dd>
+            </div>
+            <div>
+              <dt class="text-xs uppercase tracking-wide text-slate-500">Contaminant velocity (÷ R)</dt>
+              <dd id="rCont" class="text-lg font-semibold tabular-nums text-navy">—</dd>
+            </div>
+            <div class="rounded-xl bg-white p-3 ring-1 ring-brand-100">
+              <dt class="text-xs uppercase tracking-wide text-brand-700">Travel time to receptor</dt>
+              <dd id="rTime" class="text-2xl font-bold tabular-nums text-brand-700">—</dd>
+            </div>
+          </dl>
+          <p id="plain" class="mt-4 text-sm text-slate-600"></p>
+        </div>
+
+        <div class="mt-4 rounded-2xl border border-slate-200 bg-white p-5 text-sm">
+          <p class="font-medium text-navy">Working a real site?</p>
+          <p class="mt-1 text-slate-600">AquiferOps computes flow direction and travel time straight from your monitoring-well data — no re-typing — alongside your reports, exceedance flags, and field logs.</p>
+          <a href="index.html#waitlist" class="mt-3 inline-block rounded-full bg-brand-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-brand-700">Join early access</a>
+        </div>
+      </section>
+    </div>
+
+    <p class="mt-8 max-w-3xl text-xs leading-relaxed text-slate-400">
+      Screening-level estimate. Assumes saturated, steady, uniform Darcian flow through a homogeneous
+      porous medium, and (with R &gt; 1) linear equilibrium sorption. Typical material values are
+      order-of-magnitude only — always use site-specific measurements for a real assessment. Not a
+      substitute for professional judgment.
+    </p>
+  </main>
+
+  <footer class="border-t border-slate-100 py-8 text-center text-xs text-slate-400">
+    © 2026 Sapient Synergy LLC · AquiferOps · <a href="index.html" class="hover:text-brand-600">Home</a> · <a href="support.html" class="hover:text-brand-600">Support</a>
+  </footer>
+
+  <script>
+    // Typical values: [K in ft/day, effective porosity]. Order-of-magnitude.
+    var PRESETS = {
+      gravel:    [3000, 0.25],
+      coarse:    [150,  0.30],
+      fine:      [15,   0.28],
+      siltysand: [1,    0.20],
+      silt:      [0.05, 0.10],
+      clay:      [0.001, 0.05],
+    };
+    var $ = function (id) { return document.getElementById(id); };
+
+    function kToFtDay(val, unit) {
+      if (unit === 'mday') return val * 3.28084;
+      if (unit === 'cms')  return val * 2835.05; // 1 cm/s = 2835.05 ft/day
+      return val;
+    }
+    function fmt(x, unit) {
+      if (!isFinite(x)) return '—';
+      var v;
+      if (x !== 0 && (Math.abs(x) < 0.01 || Math.abs(x) >= 100000)) v = x.toExponential(2);
+      else v = x.toLocaleString('en-US', { maximumFractionDigits: x < 1 ? 4 : 2 });
+      return v + (unit ? ' ' + unit : '');
+    }
+    function fmtTime(years) {
+      if (!isFinite(years) || years <= 0) return '—';
+      if (years < 1) return (years * 365.25).toLocaleString('en-US', { maximumFractionDigits: 0 }) + ' days';
+      if (years < 1000) return years.toLocaleString('en-US', { maximumFractionDigits: years < 10 ? 1 : 0 }) + ' years';
+      return years.toExponential(2) + ' years';
+    }
+
+    function compute() {
+      var K = kToFtDay(parseFloat($('k').value), $('kunit').value);
+      var i = parseFloat($('i').value);
+      var n = parseFloat($('n').value);
+      var dist = parseFloat($('dist').value);
+      var R = Math.max(1, parseFloat($('r').value) || 1);
+
+      var ok = isFinite(K) && isFinite(i) && isFinite(n) && n > 0;
+      var qYr = ok ? K * i * 365.25 : NaN;         // ft/yr
+      var seepYr = ok ? qYr / n : NaN;             // ft/yr
+      var contYr = ok ? seepYr / R : NaN;          // ft/yr
+      var years = (isFinite(contYr) && contYr > 0 && isFinite(dist)) ? dist / contYr : NaN;
+
+      $('rDarcy').textContent = fmt(qYr, 'ft/yr');
+      $('rSeep').textContent  = fmt(seepYr, 'ft/yr');
+      $('rCont').textContent  = fmt(contYr, 'ft/yr') + (R > 1 ? '' : '  (R=1)');
+      $('rTime').textContent  = fmtTime(years);
+
+      var p = '';
+      if (isFinite(years) && years > 0 && isFinite(dist)) {
+        p = 'At about ' + fmt(contYr, 'ft/yr') + ', a dissolved '
+          + (R > 1 ? 'contaminant' : 'conservative tracer')
+          + ' would take roughly ' + fmtTime(years) + ' to travel ' + dist.toLocaleString('en-US') + ' ft to the receptor.';
+      }
+      $('plain').textContent = p;
+    }
+
+    $('material').addEventListener('change', function () {
+      var p = PRESETS[this.value];
+      if (p) { $('k').value = p[0]; $('kunit').value = 'ftday'; $('n').value = p[1]; compute(); }
+    });
+    $('useGrad').addEventListener('click', function () {
+      var dh = parseFloat($('dh').value), dl = parseFloat($('dl').value);
+      if (isFinite(dh) && isFinite(dl) && dl > 0) { $('i').value = (dh / dl).toPrecision(4); compute(); }
+    });
+    $('useR').addEventListener('click', function () {
+      var rho = parseFloat($('rho').value), kd = parseFloat($('kd').value), n = parseFloat($('n').value);
+      if (isFinite(rho) && isFinite(kd) && isFinite(n) && n > 0) { $('r').value = (1 + (rho * kd) / n).toPrecision(4); compute(); }
+    });
+    ['k','kunit','i','n','dist','r'].forEach(function (id) {
+      $(id).addEventListener('input', compute);
+    });
+    compute();
+  </script>
+</body>
+</html>
